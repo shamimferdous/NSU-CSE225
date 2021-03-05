@@ -1,0 +1,492 @@
+TASK - 1
+
+---------------------------------
+#ifndef DYNARR_H_INCLUDED
+#define DYNARR_H_INCLUDED
+
+class dynArr
+{
+private:
+    int *data;
+    int size;
+
+public:
+    dynArr();
+    dynArr(int);
+    ~dynArr();
+    void setValue(int, int);
+    int getValue(int);
+};
+
+#endif
+
+
+------------------------
+#include "dynarr.h"
+#include <iostream>
+using namespace std;
+
+dynArr::dynArr()
+{
+    data = NULL;
+    size = 0;
+}
+
+dynArr::dynArr(int s)
+{
+    data = new int[s];
+    size = s;
+}
+
+dynArr::~dynArr()
+{
+    delete[] data;
+}
+
+int dynArr::getValue(int index)
+{
+    return data[index];
+}
+
+void dynArr::setValue(int index, int value)
+{
+    data[index] = value;
+}
+
+
+
+------------------------------------------------------------------------
+// Task 1: In the driver file (main.cpp), perform the following sub-tasks.
+// 1. Create two objects of this class, one with no constructor argument and one with the argument 5.
+// 2. Take five input values from the user and store them in the array inside the second object using the set method.
+// 3. For the second object, print all the values you just stored.
+// Note that, you cannot assign anything in the first object since the array inside it has size 0. Neither can you change
+// the size of this array to some other size.
+
+#include <iostream>
+#include "dynarr.h"
+#include "dynarr.cpp"
+
+using namespace std;
+
+int main()
+{
+    //creating dynArr obj with both constructor
+    dynArr arrOne();
+    dynArr arrTwo(5);
+
+    //getting five values from user and storing
+    //inside arrTwo obj the using set method
+    int temp;
+    for (int i = 0; i < 5; i++)
+    {
+        cout << "Enter a value: ";
+        cin >> temp;
+        arrTwo.setValue(i, temp);
+    }
+
+    //printing the values
+    cout << endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cout << arrTwo.getValue(i) << endl;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------x-------------------
+TASK - 2
+
+
+#ifndef DYNARR_H_INCLUDED
+#define DYNARR_H_INCLUDED
+
+class dynArr
+{
+private:
+    int *data;
+    int size;
+
+public:
+    dynArr();
+    dynArr(int);
+    ~dynArr();
+    void setValue(int, int);
+    int getValue(int);
+    void allocate(int);
+};
+
+#endif
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+#include "dynarr.h"
+#include <iostream>
+using namespace std;
+
+dynArr::dynArr()
+{
+    data = NULL;
+    size = 0;
+}
+
+dynArr::dynArr(int s)
+{
+    data = new int[s];
+    size = s;
+}
+
+dynArr::~dynArr()
+{
+    delete[] data;
+}
+
+int dynArr::getValue(int index)
+{
+    return data[index];
+}
+
+void dynArr::setValue(int index, int value)
+{
+    data[index] = value;
+}
+
+//defining allocate method
+void dynArr::allocate(int s)
+{
+    data = new int[s];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+// Task 2: Modify the header and the source files. Add a member function void allocate(int s) which allows
+// you to change the size of the array. Make sure that memory is not leaked.
+
+#include <iostream>
+#include "dynarr.h"
+#include "dynarr.cpp"
+
+using namespace std;
+
+int main()
+{
+    //creating dynArr obj with both constructor
+    dynArr arrOne();
+    dynArr arrTwo(5); //current arr size is 5
+
+    //changign the size of the arr
+    int tempSize;
+    cout << "Current size of array is 5, Enter an integer to change it: ";
+    cin >> tempSize;
+    arrTwo.allocate(tempSize);
+
+    //getting values from user and storing
+    //inside arrTwo obj the using set method
+    int temp;
+    for (int i = 0; i < tempSize; i++)
+    {
+        cout << "Enter a value: ";
+        cin >> temp;
+        arrTwo.setValue(i, temp);
+    }
+
+    //printing the values
+    cout << endl;
+    for (int i = 0; i < tempSize; i++)
+    {
+        cout << arrTwo.getValue(i) << endl;
+    }
+}
+
+
+
+
+
+
+
+
+
+---------------x--------------------------
+TASK - 3
+
+
+#ifndef DYNARR_H_INCLUDED
+#define DYNARR_H_INCLUDED
+
+class dynArr
+{
+private:
+    int **data;
+    int row, col; //need two var to store row size and col size
+
+public:
+    dynArr();
+    dynArr(int, int); //row size, col size
+    ~dynArr();
+    void setValue(int, int, int); //row size, col size, value
+    int getValue(int, int);       //row size, col size
+    void allocate(int, int);      //new row size, new col size
+};
+
+#endif
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+#include "dynarr.h"
+#include <iostream>
+using namespace std;
+
+dynArr::dynArr()
+{
+    data = NULL;
+    row = 0;
+    col = 0;
+}
+
+dynArr::dynArr(int row, int col)
+{
+    this->row = row;
+    this->col = col;
+
+    data = new int *[row];
+    //allocating col for each row
+    for (int i = 0; i < row; i++)
+    {
+        data[i] = new int[col];
+    }
+}
+
+dynArr::~dynArr()
+{
+    delete[] data;
+}
+
+int dynArr::getValue(int row, int col)
+{
+    return data[row][col];
+}
+
+void dynArr::setValue(int row, int col, int value)
+{
+    data[row][col] = value;
+}
+
+//defining allocate method
+void dynArr::allocate(int row, int col)
+{
+    this->row = row;
+    this->col = col;
+
+    data = new int *[row];
+    //allocating col for each row
+    for (int i = 0; i < row; i++)
+    {
+        data[i] = new int[col];
+    }
+}
+
+
+
+
+--------------------------------
+
+
+// Task 3: Modify the header file and the source files again, so that it works for two dimensional array where all the
+// rows are the same size. The user will specify the number of rows and columns as well as the content of the array,
+// which you will take as input from user in the main function.
+
+#include <iostream>
+#include "dynarr.h"
+#include "dynarr.cpp"
+
+using namespace std;
+
+int main()
+{
+    int row, col;
+
+    cout << "Enter row size and col size respectively: " << endl;
+    cin >> row >> col;
+
+    // create 2d dynArr obj
+    dynArr twoDArr(row, col);
+
+    //getting input from user and storing in twoDArr using the set method
+    int temp;
+    for (int foo = 0; foo < row; foo++)
+    {
+        for (int bar = 0; bar < col; bar++)
+        {
+            cout << "Enter array element at index [" << foo << ", " << bar << "]: ";
+            cin >> temp;
+            twoDArr.setValue(foo, bar, temp);
+        }
+    }
+
+    //console logging the two d arr
+    cout << endl;
+    for (int foo = 0; foo < row; foo++)
+    {
+        for (int bar = 0; bar < col; bar++)
+        {
+            cout << "Array element at index [" << foo << ", " << bar << "]: " << twoDArr.getValue(foo, bar) << endl;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------x--------------------
+
+
+#ifndef DYNARR_H_INCLUDED
+#define DYNARR_H_INCLUDED
+
+template <class T>
+class dynArr
+{
+private:
+    T *data;
+    int size;
+
+public:
+    dynArr();
+    dynArr(int);
+    ~dynArr();
+    void setValue(int, T);
+    T getValue(int);
+};
+
+#endif
+
+
+
+-----------------------------------
+
+
+#include "dynarr.h"
+#include <iostream>
+using namespace std;
+
+template <class T>
+dynArr<T>::dynArr()
+{
+    data = NULL;
+    size = 0;
+}
+
+template <class T>
+dynArr<T>::dynArr(int s)
+{
+    data = new T[s];
+    size = s;
+}
+
+template <class T>
+dynArr<T>::~dynArr()
+{
+    delete[] data;
+}
+
+template <class T>
+T dynArr<T>::getValue(int index)
+{
+    return data[index];
+}
+
+template <class T>
+void dynArr<T>::setValue(int index, T value)
+{
+    data[index] = value;
+}
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+#include <iostream>
+#include "dynarr.h"
+#include "dynarr.cpp"
+
+using namespace std;
+
+int main()
+{
+    //creating new dynArr obj of 3 as cons arg
+    dynArr<float> arr(3);
+
+    //getting five values from user and storing
+    //inside arr obj the using set method
+    float temp;
+    for (int i = 0; i < 3; i++)
+    {
+        cout << "Enter a value: ";
+        cin >> temp;
+        arr.setValue(i, temp);
+    }
+
+    //printing the values
+    cout << endl;
+    for (int i = 0; i < 3; i++)
+    {
+        cout << arr.getValue(i) << endl;
+    }
+}
