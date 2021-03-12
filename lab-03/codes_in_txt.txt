@@ -1,0 +1,122 @@
+#ifndef COMPLEX_H_INCLUDED
+#define COMPLEX_H_INCLUDED
+
+class Complex
+{
+public:
+    Complex();
+    Complex(double, double);
+    Complex operator+(Complex);
+    Complex operator-(Complex); //substraction overload
+    Complex operator*(Complex); //multiplication overload
+    bool operator!=(Complex);   //not equal overload
+    bool operator==(Complex);   //equal overload
+    void Print();
+
+private:
+    double Real, Imaginary;
+};
+
+#endif
+
+
+
+-------------------------------------------
+
+
+#include <iostream>
+#include "complex.h"
+
+using namespace std;
+
+Complex::Complex()
+{
+    Real = 0;
+    Imaginary = 0;
+}
+
+Complex::Complex(double r, double i)
+{
+    Real = r;
+    Imaginary = i;
+}
+
+Complex Complex::operator+(Complex a)
+{
+    Complex t;
+    t.Real = Real + a.Real;
+    t.Imaginary = Imaginary + a.Imaginary;
+
+    return t;
+}
+
+Complex Complex::operator-(Complex a)
+{
+    Complex t;
+    t.Real = Real - a.Real;
+    t.Imaginary = Imaginary - a.Imaginary;
+
+    return t;
+}
+
+Complex Complex::operator*(Complex a)
+{
+    Complex t;
+    t.Real = (Real * a.Real) - (Imaginary * a.Imaginary);
+    t.Imaginary = (Real * a.Imaginary) + (Imaginary * a.Real);
+
+    return t;
+}
+
+bool Complex::operator!=(Complex a)
+{
+    return (a.Real != Real && a.Imaginary != Imaginary);
+}
+
+bool Complex::operator==(Complex a)
+{
+    return (a.Real == Real && a.Imaginary == Imaginary);
+}
+
+void Complex::Print()
+{
+    cout << Real << (Imaginary >= 0 ? "+" : "") << Imaginary << "i" << endl;
+}
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+#include <iostream>
+#include "complex.h"
+#include "complex.cpp"
+
+using namespace std;
+
+int main()
+{
+    Complex foo(1, 9);
+    Complex bar(7, 2);
+
+    Complex sum = foo + bar;
+    sum.Print();
+
+    Complex sub = foo - bar;
+    sub.Print();
+
+    Complex multip = foo * bar;
+    multip.Print();
+
+    bool isNotEqual = foo != bar;
+    cout << isNotEqual << " => " << (isNotEqual == 1 ? "The complex numbers are not equal" : "The complex numbers are equal") << endl;
+
+    bool isEqual = foo == bar;
+    cout << isEqual << " => " << (isNotEqual == 0 ? "The complex numbers are equal" : "The complex numbers are not equal") << endl;
+
+    return 0;
+}
