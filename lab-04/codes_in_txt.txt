@@ -1,0 +1,367 @@
+--------------------------------
+UNSORTEDTYPE.H
+--------------------------------
+#ifndef UNSORTEDTYPE_H_INCLUDED
+#define UNSORTEDTYPE_H_INCLUDED
+const int max_items = 5;
+
+template <class T>
+class UnsortedType
+{
+private:
+    T info[max_items];
+    int length;
+    int currentPos;
+
+public:
+    UnsortedType();
+    bool isEmpty();
+    bool isFull();
+    void makeEmpty();
+    void insertItem(T);
+    void deleteItem(T);
+    void retriveItem(T &, bool &);
+    int lengthIs();
+    void resetList();
+    void getNextItem(T &);
+};
+#endif
+
+
+
+
+
+
+
+--------------------------------
+UNSORTEDTYPE.CPP
+--------------------------------
+#include "unsortedtype.h"
+#include <iostream>
+using namespace std;
+
+template <class T>
+UnsortedType<T>::UnsortedType()
+{
+    length = 0;
+    currentPos = -1;
+}
+
+template <class T>
+bool UnsortedType<T>::isEmpty()
+{
+    return (length == 0);
+}
+
+template <class T>
+bool UnsortedType<T>::isFull()
+{
+    return (length == max_items);
+}
+
+template <class T>
+void UnsortedType<T>::makeEmpty()
+{
+    length = 0;
+}
+
+template <class T>
+void UnsortedType<T>::insertItem(T item)
+{
+    info[length] = item;
+    length++;
+}
+
+template <class T>
+void UnsortedType<T>::deleteItem(T item)
+{
+    int position;
+    for (int i = 0; i < length; i++)
+    {
+        if (info[i] == item)
+        {
+            info[i] = info[length - 1];
+            length--;
+            break;
+        }
+    }
+}
+
+template <class T>
+void UnsortedType<T>::retriveItem(T &item, bool &found)
+{
+    for (int i = 0; i < length; i++)
+    {
+        if (info[i] == item)
+        {
+            found = true;
+            item = info[i];
+            break;
+        }
+        else
+        {
+            found = false;
+        }
+    }
+}
+
+template <class T>
+int UnsortedType<T>::lengthIs()
+{
+    return length;
+}
+
+template <class T>
+void UnsortedType<T>::resetList()
+{
+    currentPos = -1;
+}
+
+template <class T>
+void UnsortedType<T>::getNextItem(T &item)
+{
+    currentPos++;
+    item = info[currentPos];
+}
+
+
+
+
+
+
+
+
+--------------------------------
+STUDENTINFO.H
+--------------------------------
+#ifndef STUDENTINFO_H_INCLUDED
+#define STUDENTINFO_H_INCLUDED
+
+class studentInfo
+{
+private:
+    int id;
+    string name;
+    double CGPA;
+
+public:
+    studentInfo();
+    studentInfo(int);
+    studentInfo(int, string, double);
+    bool operator==(studentInfo s);
+    bool operator!=(studentInfo s);
+    friend ostream &operator<<(ostream &, studentInfo &);
+};
+
+#endif
+
+
+
+
+
+
+
+--------------------------------
+STUDENTINFO.CPP
+--------------------------------
+#include "studentInfo.h"
+#include <iostream>
+using namespace std;
+
+studentInfo::studentInfo()
+{
+    cout << "Creating obj with empty constructor";
+}
+
+studentInfo::studentInfo(int id)
+{
+    this->id = id;
+}
+
+studentInfo::studentInfo(int id, string name, double CGPA)
+{
+    this->id = id;
+    this->name = name;
+    this->CGPA = CGPA;
+}
+
+bool studentInfo::operator==(studentInfo s)
+{
+    if (this->id == s.id)
+        return true;
+    else
+        return false;
+}
+bool studentInfo::operator!=(studentInfo s)
+{
+    if (this->id != s.id)
+        return true;
+    else
+        return false;
+}
+ostream &operator<<(ostream &os, studentInfo &student)
+{
+    os << student.id << "," << student.name << "," << student.CGPA << endl;
+    return os;
+}
+
+
+
+
+
+
+
+
+
+--------------------------------
+MAIN.CPP
+--------------------------------
+#include <iostream>
+#include "unsortedtype.cpp"
+#include "studentInfo.cpp"
+using namespace std;
+
+int main()
+{
+    //creating a list of integers
+    UnsortedType<int> ul;
+
+    if (ul.isEmpty())
+    {
+        cout << "List is empty" << endl;
+    }
+    else
+    {
+        cout << "List is not empty" << endl;
+    }
+
+    //inserting four items
+    int temp;
+    for (int i = 0; i < 4; i++)
+    {
+        cin >> temp;
+        ul.insertItem(temp);
+    }
+
+    //printing the list
+    cout << endl;
+    for (int i = 0; i < ul.lengthIs(); i++)
+    {
+        ul.getNextItem(temp);
+        cout << temp << "\t";
+    }
+    ul.resetList();
+
+    //printing length of the list
+    cout << endl
+         << "Length of the list: " << ul.lengthIs() << endl;
+
+    //inserting one item
+    ul.insertItem(5);
+
+    //printing the list
+    cout << endl;
+    for (int i = 0; i < ul.lengthIs(); i++)
+    {
+        ul.getNextItem(temp);
+        cout << temp << "\t";
+    }
+    ul.resetList();
+
+    //retriving 4 user given items
+    bool isFound = false;
+    for (int i = 0; i < ul.lengthIs(); i++)
+    {
+        cout << endl
+             << "Enter a number: ";
+        cin >> temp;
+        ul.retriveItem(temp, isFound);
+
+        cout << (isFound ? "Found" : "Not Found") << endl;
+    }
+
+    //priniting if the list is full or not
+    if (ul.isFull())
+    {
+        cout << "List is full!" << endl;
+    }
+    else
+    {
+        cout << "List is not full!" << endl;
+    }
+
+    //deleting 5 and displaying if list is full or not
+    ul.deleteItem(5);
+    if (ul.isFull())
+    {
+        cout << "List is full!" << endl;
+    }
+    else
+    {
+        cout << "List is not full!" << endl;
+    }
+
+    //deleting 1 and printing the list
+    ul.deleteItem(1);
+    cout << endl;
+    for (int i = 0; i < ul.lengthIs(); i++)
+    {
+        ul.getNextItem(temp);
+        cout << temp << "\t";
+    }
+    ul.resetList();
+
+    //deleting 6 and printing the list
+    ul.deleteItem(1);
+    cout << endl;
+    for (int i = 0; i < ul.lengthIs(); i++)
+    {
+        ul.getNextItem(temp);
+        cout << temp << "\t";
+    }
+    ul.resetList();
+
+    //creating studentInfo object
+    UnsortedType<studentInfo> students;
+
+    //inserting 5 students record
+    studentInfo student_1(15234, "Jon", 2.6),
+        student_2(13732, "Tyrion", 3.9),
+        student_3(13569, "Sandor", 1.2),
+        student_4(15467, "Ramsey 2", 3.1),
+        student_5(16285, "Arya", 3.1);
+
+    students.insertItem(student_1);
+    students.insertItem(student_2);
+    students.insertItem(student_3);
+    students.insertItem(student_4);
+    students.insertItem(student_5);
+
+    //deleting the record with id 15467
+    studentInfo tempStudentD = 15467;
+    students.deleteItem(tempStudentD);
+
+    // Retrieve the record with ID 13569
+    studentInfo tempStudent = 13569;
+    bool isStudentIsFound = false;
+    students.retriveItem(tempStudent, isStudentIsFound);
+
+    if (isStudentIsFound)
+    {
+        cout << endl
+             << "Student is found" << endl;
+        cout << student_3;
+    }
+
+    //printing the list
+    cout << endl
+         << "\t";
+    for (int i = 0; i < students.lengthIs(); i++)
+    {
+        students.getNextItem(tempStudent);
+        cout << tempStudent << "\t";
+    }
+    ul.resetList();
+
+    return 0;
+}
