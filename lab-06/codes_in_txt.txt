@@ -1,0 +1,290 @@
+--------------------------------
+stacktype.h
+--------------------------------
+#ifndef STACKTYPE_H_INCLUDED
+#define STACKTYPE_H_INCLUDED
+const int max_items = 5;
+
+class FullStack
+{
+};
+
+class EmptyStack
+{
+};
+template <class T>
+class StackType
+{
+
+private:
+    int top;
+    T info[max_items];
+
+public:
+    StackType();
+    bool isFull();
+    bool isEmpty();
+    void Push(T);
+    void Pop();
+    T Top();
+};
+
+#endif // STACKTYPE_H_INCLUDED
+
+
+
+--------------------------------
+stacktype.cpp
+--------------------------------
+#include <iostream>
+#include "stacktype.h"
+
+using namespace std;
+
+template <class T>
+StackType<T>::StackType()
+{
+    this->top = -1;
+}
+
+template <class T>
+bool StackType<T>::isFull()
+{
+    return (this->top == max_items - 1);
+}
+
+template <class T>
+bool StackType<T>::isEmpty()
+{
+    return (this->top == -1);
+}
+
+template <class T>
+void StackType<T>::Push(T item)
+{
+    if (isFull())
+    {
+        throw FullStack();
+    }
+
+    top++;
+    info[top] = item;
+}
+
+template <class T>
+void StackType<T>::Pop()
+{
+    if (isEmpty())
+    {
+        throw EmptyStack();
+    }
+
+    top--;
+}
+
+template <class T>
+T StackType<T>::Top()
+{
+    if (isEmpty())
+    {
+        throw EmptyStack();
+    }
+
+    return info[top];
+}
+
+
+
+
+--------------------------------
+main.cpp
+--------------------------------
+#include <iostream>
+#include "stacktype.cpp"
+
+using namespace std;
+
+//defining stack Print method
+void Print(StackType<int> s)
+{
+
+    StackType<int> aux;
+
+    while (!s.isEmpty())
+    {
+        aux.Push(s.Top());
+        s.Pop();
+    }
+    while (!aux.isEmpty())
+    {
+        cout << aux.Top() << " ";
+        aux.Pop();
+    }
+    cout << endl;
+}
+
+//defining findBiggest method
+void findBiggest(StackType<int> s)
+{
+    StackType<int> aux;
+    int m = s.Top();
+    int a;
+
+    while (!s.isEmpty())
+    {
+        aux.Push(s.Top());
+        s.Pop();
+    }
+    while (!aux.isEmpty())
+    {
+        cout << aux.Top() << " ";
+        a = aux.Top();
+        if (m < a)
+        {
+            m = a;
+        }
+        aux.Pop();
+    }
+    cout << endl;
+
+    cout << "Biggest element is: " << m << endl;
+}
+
+int main()
+{
+    //creating new stack of integers
+    StackType<int> stack;
+
+    //checking if the stack is empty
+    if (stack.isEmpty())
+    {
+        cout << "Stack is empty" << endl;
+    }
+    else
+    {
+        cout << "Stack is not empty" << endl;
+    }
+
+    //pushing four items
+    int temp;
+    try
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            cout << "Enter a value: ";
+            cin >> temp;
+            stack.Push(temp);
+        }
+    }
+    catch (FullStack f)
+    {
+        cout << "Stack overflow!" << endl;
+    }
+
+    //checking if the stack is empty
+    if (stack.isEmpty())
+    {
+        cout << "Stack is empty" << endl;
+    }
+    else
+    {
+        cout << "Stack is not empty" << endl;
+    }
+
+    //checking if the stack is full
+    if (stack.isFull())
+    {
+        cout << "Stack is full" << endl;
+    }
+    else
+    {
+        cout << "Stack is not full" << endl;
+    }
+
+    //printing the stack
+    Print(stack);
+
+    //pushing another item to stack
+    stack.Push(5);
+
+    //printing the stack
+    Print(stack);
+
+    //checking if the stack is full
+    cout << endl;
+    if (stack.isFull())
+    {
+        cout << "Stack is full" << endl;
+    }
+    else
+    {
+        cout << "Stack is not full" << endl;
+    }
+
+    //popping two items
+    stack.Pop();
+    stack.Pop();
+
+    //printing top item
+    cout << "Top item: " << stack.Top() << endl;
+
+    //inserting 3 more items
+    try
+    {
+        stack.Push(6);
+        stack.Push(7);
+        stack.Push(8);
+    }
+    catch (FullStack f)
+    {
+        cout << "Stack Overflow!" << endl;
+    }
+
+    //finding biggest value from stack
+    findBiggest(stack);
+
+    //creating new character stack
+    StackType<char>
+        stp;
+    string tempStr;
+
+    cout << "Enter paranthesis to check balance: " << endl; // taking user input four times for checking
+    for (int i = 0; i < 4; i++)
+    {
+        // cout <<;
+        cin >> tempStr;
+        cin.clear();
+
+        for (int j = 0; tempStr[j] != '\0'; j++)
+        {
+            if (tempStr[j] == '(')
+            {
+                stp.Push(tempStr[j]);
+            }
+
+            try
+            {
+                if (tempStr[j] == ')')
+                {
+                    stp.Pop();
+                }
+            }
+            catch (EmptyStack e)
+            {
+                cout << "Not Balanced" << endl;
+                return 0;
+            }
+        }
+
+        if (stp.isEmpty())
+        {
+            cout << "Balanced" << endl;
+        }
+        else
+        {
+            cout << "Not Balanced" << endl;
+        }
+    }
+
+    return 0;
+}
