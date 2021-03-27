@@ -66,11 +66,19 @@ void Print(QueType<int> q)
 void PrintReverse(QueType<int> q)
 {
     StackType<int> stack;
+    QueType<int> temp;
 
     while (!q.isEmpty())
     {
+        temp.Enqueue(q.Front());
         stack.Push(q.Front());
         q.Dequeue();
+    }
+
+    while (!temp.isEmpty())
+    {
+        q.Enqueue(temp.Front());
+        temp.Dequeue();
     }
 
     StackType<int> tempStack;
@@ -87,11 +95,19 @@ void PrintReverse(QueType<int> q)
 bool WeightMeter(QueType<int> q, int weightLimit)
 {
     int sum = 0;
+    QueType<int> temp;
 
     while (!q.isEmpty())
     {
+        temp.Enqueue(q.Front());
         sum = sum + q.Front();
         q.Dequeue();
+    }
+
+    while (!temp.isEmpty())
+    {
+        q.Enqueue(temp.Front());
+        temp.Dequeue();
     }
 
     // cout << "Total weight: " << sum;
