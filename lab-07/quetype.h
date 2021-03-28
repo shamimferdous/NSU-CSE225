@@ -1,6 +1,6 @@
 #ifndef QUETYPE_H_INCLUDED
 #define QUETYPE_H_INCLUDED
-const int max_items = 5;
+const int max_items = 40;
 class FullQueue
 {
 };

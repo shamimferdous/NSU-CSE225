@@ -8,14 +8,13 @@ QueType<T>::QueType()
 {
     rear = -1;
     front = -1;
-    // info = new T[max_items];
 }
 
 template <class T>
 void QueType<T>::MakeEmpty()
 {
-    front = max_items - 1;
-    rear = max_items - 1;
+    front = -1;
+    rear = -1;
 }
 
 template <class T>
@@ -46,14 +45,13 @@ void QueType<T>::Enqueue(T item)
         }
         else
         {
-            // cout << "Inserting item to queue[rear, iValue] " << rear << ", " << item;
             rear = (rear + 1) % max_items;
         }
         info[rear] = item;
     }
     catch (FullQueue f)
     {
-        cout << "Queue is full" << endl;
+        cout << "Queue is already full!" << endl;
     }
 }
 
@@ -78,7 +76,7 @@ void QueType<T>::Dequeue()
     }
     catch (EmptyQueue e)
     {
-        cout << "Queue is already empty" << endl;
+        cout << "Queue is already empty!" << endl;
     }
 }
 
