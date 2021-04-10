@@ -11,7 +11,6 @@ class SortedType
 
 public:
     SortedType();
-    // ~SortedType();
     void MakeEmpty();
     bool IsEmpty();
     bool IsFull();

@@ -48,7 +48,7 @@ int main()
     }
 
     //deleting 3
-    ol.deleteItem(3);
+    ol.deleteItem(55);
 
     //printing the list again
     cout << endl;

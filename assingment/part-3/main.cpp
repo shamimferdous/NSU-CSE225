@@ -20,7 +20,16 @@ void InsertAtFirst(int item)
 {
     struct Node *temp = new Node;
 
-    if (head == NULL)
+    if (head != NULL)
+    {
+        temp->next = head;
+        temp->prev = NULL;
+        temp->data = item;
+
+        head->prev = temp;
+        head = temp;
+    }
+    else
     {
         head = temp;
 
@@ -30,23 +39,12 @@ void InsertAtFirst(int item)
 
         foot = temp;
     }
-    else
-    {
-
-        temp->next = head;
-        temp->prev = NULL;
-        temp->data = item;
-
-        head->prev = temp;
-        head = temp;
-    }
 }
 
 //defining InsertAtLast function
 void InsertAtLast(int item)
 {
-    struct Node *temp;
-    temp = new Node;
+    struct Node *temp = new Node;
 
     temp->data = item;
 
@@ -110,7 +108,7 @@ void InsertPosition(int pos, int item)
     }
 }
 
-// //defining DeleteAtFirst function
+//defining DeleteAtFirst function
 void DeleteAtFirst()
 {
     //terminating if the list is empty
@@ -152,9 +150,8 @@ void DeleteAtLast()
 
     if (head != foot)
     {
-        struct Node *temp;
+        struct Node *temp = foot;
 
-        temp = foot;
         foot = foot->prev;
         foot->next = NULL;
 
@@ -163,9 +160,8 @@ void DeleteAtLast()
     }
     else
     {
-        struct Node *temp;
+        struct Node *temp = head;
 
-        temp = head;
         head = NULL;
         foot = NULL;
 
@@ -176,33 +172,32 @@ void DeleteAtLast()
 //defining DeletePosition function
 void DeletePosition(int pos)
 {
-    struct Node *curNode;
-    int i;
+    struct Node *temp;
 
-    curNode = head;
-    for (i = 1; i < pos && curNode != NULL; i++)
+    temp = head;
+    for (int i = 1; i < pos && temp != NULL; i++)
     {
-        curNode = curNode->next;
+        temp = temp->next;
     }
 
-    if (pos == 1)
+    if (pos == 1) //if given position is head
     {
         DeleteAtFirst();
     }
-    else if (curNode == foot)
+    else if (temp == foot)
     {
         DeleteAtLast();
     }
-    else if (curNode != NULL)
+    else if (temp != NULL)
     {
-        curNode->prev->next = curNode->next;
-        curNode->next->prev = curNode->prev;
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
 
-        delete curNode;
+        delete temp;
     }
     else
     {
-        cout << " The given position is invalid!\n";
+        cout << "Invalid position!";
     }
 }
 
@@ -212,16 +207,19 @@ void DeleteValue(int item)
     struct Node *temp_foo = head;
     Node *temp_bar = foot;
 
-    //checking if the head node has the item value we want to delete
+    //checking if head has our item
     if (temp_foo->data == item)
     {
         DeleteAtFirst();
         return;
     }
+    //checking if foot has out item
     else if (foot->data == item)
     {
+        DeleteAtLast();
+        return;
     }
-    //or searching for the item to be deleted
+    //or looking through the list
     else
     {
         while ((temp_foo != NULL) && (temp_foo->data != item))
@@ -272,44 +270,61 @@ void PrintReverse()
 
 int main()
 {
+    int x, pos;
+
     //inserting four node at first
-    InsertAtFirst(10);
-    InsertAtFirst(20);
-    InsertAtFirst(30);
-    InsertAtFirst(40);
+    cout << "Enter 4 values to insert at first: " << endl;
+    for (int i = 0; i < 4; i++)
+    {
+        cin >> x;
+        InsertAtFirst(x);
+    }
     Print();
+
+    //printing the list in reverse
+    cout << endl
+         << "Printing the list in reverse" << endl;
     PrintReverse();
 
     //inserting node at last position
-    InsertAtLast(50);
+    cout << "Enter a value to insert at last: " << endl;
+    cin >> x;
+    InsertAtLast(x);
     Print();
-    PrintReverse();
 
     //inserting node at given position
-    InsertPosition(2, 99);
+    cout << endl
+         << "Enter a position and it's value respectively: " << endl;
+    cin >> pos >> x;
+    InsertPosition(pos, x);
     Print();
-    PrintReverse();
 
     //deleting node at first position
+    cout << endl
+         << "Deleting node at first position" << endl;
     DeleteAtFirst();
     Print();
-    PrintReverse();
 
     //deleting node at last position
+    cout << endl
+         << "Deleting node at last position"
+         << endl;
     DeleteAtLast();
     Print();
-    PrintReverse();
 
     //deleting node at given position
-    DeletePosition(3); //TODO:Issue in this function
-    cout << "deleted form position";
+    cout << endl
+         << "Enter a position to delete node at: " << endl;
+    cin >> pos;
+    DeletePosition(pos);
     Print();
-    PrintReverse();
 
     //delete node by given value
-    DeleteValue(99);
+    cout << endl
+         << "Enter a value to delete from the list: " << endl;
+    cin >> x;
+    DeleteValue(x);
     Print();
-    PrintReverse();
 
     return 0;
 }

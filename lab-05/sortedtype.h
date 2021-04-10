@@ -1,6 +1,6 @@
 #ifndef SORTEDTYPE_H_INCLUDED
 #define SORTEDTYPE_H_INCLUDED
-const int max_items = 5;
+const int max_items = 20;
 template <class T>
 class SortedType
 {

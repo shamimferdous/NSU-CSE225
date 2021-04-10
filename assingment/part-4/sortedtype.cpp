@@ -1,4 +1,5 @@
 #include "sortedtype.h"
+
 #include <iostream>
 using namespace std;
 
@@ -25,7 +26,7 @@ void SortedType<T>::MakeEmpty()
     length = 0;
 }
 
-//TODO:Need to implement isEmpty
+//defining IsEmpty method
 template <class T>
 bool SortedType<T>::IsEmpty()
 {
@@ -68,19 +69,19 @@ template <class T>
 void SortedType<T>::InsertItem(T item)
 {
     Node *newNode;
-    Node *predLoc;
+    Node *trailPtr;
     Node *location;
 
     bool ts;
 
     location = info;
-    predLoc = NULL;
+    trailPtr = NULL;
     ts = (location != NULL);
     while (ts)
     {
         if (location->info < item)
         {
-            predLoc = location;
+            trailPtr = location;
             location = location->next;
             ts = (location != NULL);
         }
@@ -89,7 +90,7 @@ void SortedType<T>::InsertItem(T item)
     }
     newNode = new Node;
     newNode->info = item;
-    if (predLoc == NULL)
+    if (trailPtr == NULL)
     {
         newNode->next = info;
         info = newNode;
@@ -97,7 +98,7 @@ void SortedType<T>::InsertItem(T item)
     else
     {
         newNode->next = location;
-        predLoc->next = newNode;
+        trailPtr->next = newNode;
     }
     length++;
 }

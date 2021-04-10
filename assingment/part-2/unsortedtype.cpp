@@ -1,106 +1,107 @@
-#include "unsortedtype.h"
+#include "sortedtype.h"
+
 #include <iostream>
 using namespace std;
 
 template <class T>
-UnsortedType<T>::UnsortedType()
+SortedType<T>::SortedType()
 {
     length = 0;
     currentPos = -1;
 }
 
 template <class T>
-bool UnsortedType<T>::isEmpty()
+void SortedType<T>::makeEmpty()
+{
+    length = 0;
+}
+
+template <class T>
+bool SortedType<T>::isEmpty()
 {
     return (length == 0);
 }
 
 template <class T>
-bool UnsortedType<T>::isFull()
+bool SortedType<T>::isFull()
 {
     return (length == max_items);
 }
 
 template <class T>
-void UnsortedType<T>::makeEmpty()
-{
-    length = 0;
-}
-
-template <class T>
-void UnsortedType<T>::insertItem(T item)
-{
-    info[length] = item;
-    length++;
-}
-
-template <class T>
-void UnsortedType<T>::deleteItem(T item)
-{
-    int position;
-    for (int i = 0; i < length; i++)
-    {
-        if (info[i] == item)
-        {
-            info[i] = info[length - 1];
-            length--;
-            break;
-        }
-    }
-}
-
-template <class T>
-void UnsortedType<T>::retriveItem(T &item, bool &found)
-{
-    for (int i = 0; i < length; i++)
-    {
-        if (info[i] == item)
-        {
-            found = true;
-            item = info[i];
-            break;
-        }
-        else
-        {
-            found = false;
-        }
-    }
-}
-
-template <class T>
-int UnsortedType<T>::lengthIs()
+int SortedType<T>::lengthIs()
 {
     return length;
 }
 
 template <class T>
-void UnsortedType<T>::resetList()
+void SortedType<T>::insertItem(T item)
+{
+    int position = 0;
+    bool tS = (position < length);
+    while (tS)
+    {
+        if (item > info[position])
+        {
+            position++;
+            tS = (position < length);
+        }
+        else if (item < info[position])
+            tS = false;
+    }
+    for (int index = length; index > position; index--)
+        info[index] = info[index - 1];
+    info[position] = item;
+    length++;
+}
+
+template <class T>
+void SortedType<T>::deleteItem(T item)
+{
+    int position = 0;
+    while (item != info[position])
+        position++;
+    for (int index = position + 1; index < length; index++)
+        info[index - 1] = info[index];
+    length--;
+}
+
+template <class T>
+void SortedType<T>::resetList()
 {
     currentPos = -1;
 }
 
 template <class T>
-void UnsortedType<T>::getNextItem(T &item)
+void SortedType<T>::getNextItem(T &item)
 {
     currentPos++;
     item = info[currentPos];
 }
 
-//adding this sortListInAscOrder function to sort the unsorted array in ascending order
 template <class T>
-void UnsortedType<T>::sortListInAscOrder()
+void SortedType<T>::retriveItem(T &item, bool &found)
 {
-    Student temp;
-    for (int foo = 0; foo < this->length - 1; foo++) //usoing bubble sort algorithm
+    int mid, first = 0, last = length - 1;
+    bool tS = (first <= last);
+    found = false;
+    while (tS && !found)
     {
-        for (int bar = 0; bar < this->length - foo - 1; bar++)
+        mid = (first + last) / 2;
+        if (item < info[mid])
         {
-            if (info[bar] < info[bar + 1])
-            {
-                temp = info[bar];
-                info[bar] = info[bar + 1];
-                info[bar + 1] = temp;
-            }
+            last = mid - 1;
+            tS = (first <= last);
+        }
+        else if (item > info[mid])
+        {
+            first = mid + 1;
+            tS = (first <= last);
+        }
+        else
+        {
+            found = true;
+            item = info[mid];
         }
     }
 }
