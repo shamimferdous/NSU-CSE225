@@ -21,5 +21,6 @@ public:
     int lengthIs();
     void resetList();
     void getNextItem(T &);
+    T someFunction();
 };
 #endif // UNSORTEDTYPE_H_INCLUDED

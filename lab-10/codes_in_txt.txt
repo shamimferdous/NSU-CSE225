@@ -1,0 +1,211 @@
+----------------
+fibonacci.cpp
+----------------
+#include <iostream>
+
+using namespace std;
+
+int fib(int n)
+{
+    if (n == 0)
+    {
+        return 0;
+    }
+    else if (n == 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return fib(n - 1) + fib(n - 2);
+    }
+}
+
+int main()
+{
+    int input;
+    cout << "Enter a number: ";
+    cin >> input;
+
+    cout << fib(input) << endl;
+
+    return 0;
+}
+
+
+
+----------------
+factorial.cpp
+----------------
+#include <iostream>
+
+using namespace std;
+
+int factorial(int n)
+{
+    if (n == 0)
+    {
+        return 1;
+    }
+    else if (n == 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return n * factorial(n - 1);
+    }
+}
+
+int main()
+{
+    int input;
+    cout << "Enter a number: ";
+    cin >> input;
+
+    cout << factorial(input) << endl;
+
+    return 0;
+}
+
+
+
+----------------
+sumOfDigits.cpp
+----------------
+#include <iostream>
+
+using namespace std;
+
+int sumOfDigits(int x)
+{
+    if (x == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return (x % 10 + sumOfDigits(x / 10));
+    }
+}
+
+int main()
+{
+    int input;
+    cout << "Enter a number: ";
+    cin >> input;
+
+    cout << sumOfDigits(input) << endl;
+}
+
+
+
+----------------------
+findMinElemFromArr.cpp
+----------------------
+#include <iostream>
+
+using namespace std;
+
+int findMin(int a[], int size)
+{
+    if (size == 1)
+    {
+        return a[0]; //if there's only 1 elem in the arr
+    }
+    else
+    {
+        int minimum = findMin(a, size - 1);
+
+        if (minimum < a[size - 1])
+        {
+            return minimum;
+        }
+        else
+        {
+            return a[size - 1];
+        }
+    }
+}
+
+int main()
+{
+    int temp;
+    int arr[5];
+    cout << "Enter 5 integers respectively: " << endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cin >> temp;
+        arr[i] = temp;
+    }
+
+    cout << "Min Element: " << findMin(arr, (sizeof(arr) / sizeof(arr[0])));
+
+    return 0;
+}
+
+
+
+-------------------
+decimalToBinary.cpp
+-------------------
+#include <iostream>
+
+using namespace std;
+
+int DecToBin(int dec)
+{
+    if (dec == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return (dec % 2 + 10 * DecToBin(dec / 2));
+    }
+}
+
+int main()
+{
+    int input;
+    cout << "Enter a decimal number: ";
+    cin >> input;
+
+    cout << DecToBin(input) << endl;
+
+    return 0;
+}
+
+
+
+----------------
+sumOfSeries.cpp
+----------------
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+double findSum(int n)
+{
+
+    if (n == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return ((1.0 / pow(2, n)) + findSum(n - 1));
+    }
+}
+
+int main()
+{
+    int input;
+    cout << "Enter n: ";
+    cin >> input;
+
+    cout << "Sum: " << findSum(input);
+
+    return 0;
+}

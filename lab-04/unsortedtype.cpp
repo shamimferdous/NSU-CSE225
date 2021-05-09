@@ -85,3 +85,9 @@ void UnsortedType<T>::getNextItem(T &item)
     currentPos++;
     item = info[currentPos];
 }
+
+template <class T>
+T UnsortedType<T>::someFunction()
+{
+    
+}
