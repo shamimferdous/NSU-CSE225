@@ -1,0 +1,26 @@
+#ifndef UNSORTEDTYPE_H_INCLUDED
+#define UNSORTEDTYPE_H_INCLUDED
+const int maximum_items = 25;
+
+template <class T>
+class UnsortedType
+{
+private:
+    T info[maximum_items];
+    int length;
+    int currentPos;
+
+public:
+    UnsortedType();
+    bool isEmpty();
+    bool isFull();
+    void makeEmpty();
+    void insertItem(T);
+    void deleteItem(T);
+    void retriveItem(T &, bool &);
+    int lengthIs();
+    void resetList();
+    void getNextItem(T &);
+    // void sortListInAscOrder();
+};
+#endif // UNSORTEDTYPE_H_INCLUDED
